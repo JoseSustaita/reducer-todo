@@ -1,24 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useReducer } from "react";
+import { initialState, reducer } from "./reducers/reducer";
+import List from "./components/list";
+import "./App.css";
 
 function App() {
+  const [item, dispatch] = useReducer(reducer, initialState);
+  const [newTask, setTask] = useState("");
+
+  const handleChanges = (e) => {
+    setTask(e.target.value);
+  };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setTask("");
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <h1>TODO List</h1>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="iten"
+          value={newTask}
+          onChange={handleChanges}
+          placeholder="Task"
+        />
+        <br></br>
+        <button
+          onClick={() => dispatch({ type: "ADD_TODO", payload: newTask })}
+          type="submit"
         >
-          Learn React
-        </a>
-      </header>
+          Add Task
+        </button>
+        <List item={item} dispatch={dispatch} />
+        <button
+          onClick={() => dispatch({ type: "CLEAR_TODO", payload: newTask })}
+        >
+          Clear Task
+        </button>
+      </form>
     </div>
   );
 }
