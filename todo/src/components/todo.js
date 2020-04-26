@@ -3,7 +3,6 @@ import React from "react";
 const Todo = (props) => {
   return (
     <div
-      className={`item ${props.item.completed ? "completed" : ""}`}
       style={{ textDecoration: props.item.completed ? "line-through" : "" }}
       onClick={() =>
         props.dispatch({ type: "COMPLETED_TODO", payload: props.item })
